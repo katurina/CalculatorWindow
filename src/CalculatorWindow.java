@@ -41,7 +41,7 @@ public class CalculatorWindow extends JFrame {
                 panel.add(button);
                 s++;
             }
-            s1=1;
+//       it was     s1=1;
         }
         setContentPane(panel);
 

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Bird on 01.02.2017.
@@ -33,15 +34,20 @@ public class CalculatorWindow extends JFrame {
         panel.add(multiplication);
         panel.add(divicion);
         int s=1,s2;
+        ArrayList<JButton> buttons = new ArrayList();
+        JButton button = new JButton("0");
+        button.setBounds(0,i*4,i,i);
+        buttons.add(0,button);
+        panel.add(button);
         for (int s1 = 1; s1 < 4; s1++) {
             for (s2 = 0; s2 < 3; s2++) {
 
-                JButton button = new JButton(Integer.toString(s));
+                button = new JButton(Integer.toString(s));
+                buttons.add(s,button);
                 button.setBounds(s2*i,s1*i , i, i);
                 panel.add(button);
                 s++;
             }
-//       it was     s1=1;
         }
         setContentPane(panel);
 

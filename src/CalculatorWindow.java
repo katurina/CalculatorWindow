@@ -41,7 +41,6 @@ public class CalculatorWindow extends JFrame {
         panel.add(button);
         for (int s1 = 1; s1 < 4; s1++) {
             for (s2 = 0; s2 < 3; s2++) {
-
                 button = new JButton(Integer.toString(s));
                 buttons.add(s,button);
                 button.setBounds(s2*i,s1*i , i, i);
@@ -49,6 +48,16 @@ public class CalculatorWindow extends JFrame {
                 s++;
             }
         }
+        button = new JButton(",");
+        button.setBounds(i,i*4,i,i);
+        buttons.add(10,button);
+        panel.add(button);
+
+        button = new JButton("=");
+        button.setBounds(i*2,i*4,i,i);
+        buttons.add(11,button);
+        panel.add(button);
+
         setContentPane(panel);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при

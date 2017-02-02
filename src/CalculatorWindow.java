@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -7,12 +6,13 @@ import java.util.ArrayList;
  */
 public class CalculatorWindow extends JFrame {
 
+    private static JTextField text = new JTextField();
+    private static String textWriter = new String();
     private JButton summ = new JButton("+");
     private JButton subtraction = new JButton("-");
     private JButton multiplication = new JButton("*");
     private JButton divicion = new JButton("/");
     private JPanel panel = new JPanel();
-    private static JTextField text = new JTextField();
 
     public CalculatorWindow() {
         super("Calculator"); //Заголовок окна
@@ -27,7 +27,7 @@ public class CalculatorWindow extends JFrame {
         divicion.setBounds(300 - j, i * 4, i, i);
         text.setBounds(0, 0, 300, 60);
 
-        ArrayList<JButton> buttons = new ArrayList();
+        ArrayList<JButton> buttonsNumber = new ArrayList();
 
 
         panel.add(text);
@@ -39,12 +39,12 @@ public class CalculatorWindow extends JFrame {
 
         JButton button = new JButton("0");
         button.setBounds(0, i * 4, i, i);
-        buttons.add(0, button);
+        buttonsNumber.add(0, button);
         panel.add(button);
         for (int s1 = 1; s1 < 4; s1++) {
             for (s2 = 0; s2 < 3; s2++) {
                 button = new JButton(Integer.toString(s));
-                buttons.add(s, button);
+                buttonsNumber.add(s, button);
                 button.setBounds(s2 * i, s1 * i, i, i);
                 panel.add(button);
                 s++;
@@ -52,18 +52,17 @@ public class CalculatorWindow extends JFrame {
         }
         button = new JButton(",");
         button.setBounds(i, i * 4, i, i);
-        buttons.add(10, button);
+        buttonsNumber.add(10, button);
         panel.add(button);
 
         button = new JButton("=");
         button.setBounds(i * 2, i * 4, i, i);
-        buttons.add(11, button);
         panel.add(button);
 
         setContentPane(panel);
 
 
-        listenButton(buttons);
+        listenButtonNumber(buttonsNumber);
 
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при
@@ -71,14 +70,18 @@ public class CalculatorWindow extends JFrame {
         //иначе она останется висеть в процессах
     }
 
-    static void listenButton(ArrayList<JButton> button) {
-
-
+    static void listenButtonNumber(ArrayList<JButton> button) {
         for (JButton buttonInMethod : button) {
             buttonInMethod.addActionListener(e -> {
-                String textWriter = buttonInMethod.getText();
+                textWriter += buttonInMethod.getText();
                 text.setText(textWriter);
             });
+//            listen calculator panel then
+//            do it tomorrow
+//            if (buttonInMethod.getText().equals("9")) {
+//                textWriter.trim();
+//                break;
+//            }
         }
     }
 

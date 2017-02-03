@@ -65,7 +65,7 @@ public class CalculatorWindow extends JFrame {
         panel.add(divicion);
 
         JButton buttonEnter = new JButton("=");
-        button.setBounds(i * 2, i * 4, i, i);
+        buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
 
         setContentPane(panel);

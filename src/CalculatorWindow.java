@@ -9,6 +9,7 @@ public class CalculatorWindow extends JFrame {
 
     private static JTextField text = new JTextField();
     private static String textWriter = new String();
+    private static JButton buttonEnter = new JButton("=");
     private JButton summ = new JButton("+");
     private JButton subtraction = new JButton("-");
     private JButton multiplication = new JButton("*");
@@ -64,7 +65,7 @@ public class CalculatorWindow extends JFrame {
         panel.add(multiplication);
         panel.add(divicion);
 
-        JButton buttonEnter = new JButton("=");
+
         buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
 
@@ -85,13 +86,16 @@ public class CalculatorWindow extends JFrame {
                 textWriter += buttonInMethod.getText();
                 text.setText(textWriter);
             });
-//            listen calculator panel then
-//            do it tomorrow
-//            if (buttonInMethod.getText().equals("9")) {
-//                textWriter.trim();
-//                break;
-//            }
+
+            buttonEnter.addActionListener(
+                    e -> {
+//                        take text and dissamble it to parts
+
+                    }
+            );
+
         }
     }
+
 
 }

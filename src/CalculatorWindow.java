@@ -1,5 +1,6 @@
 import javax.swing.*;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Bird on 01.02.2017.
@@ -27,24 +28,21 @@ public class CalculatorWindow extends JFrame {
         divicion.setBounds(300 - j, i * 4, i, i);
         text.setBounds(0, 0, 300, 60);
 
-        ArrayList<JButton> buttonsNumber = new ArrayList();
+
+//        list doesn't want to be protected
+        List<JButton> buttonsNumber = new LinkedList<>();
 
 
-        panel.add(text);
-        panel.add(summ);
-        panel.add(subtraction);
-        panel.add(multiplication);
-        panel.add(divicion);
         int s = 1, s2;
 
         JButton button = new JButton("0");
         button.setBounds(0, i * 4, i, i);
-        buttonsNumber.add(0, button);
+        buttonsNumber.add(button);
         panel.add(button);
         for (int s1 = 1; s1 < 4; s1++) {
             for (s2 = 0; s2 < 3; s2++) {
                 button = new JButton(Integer.toString(s));
-                buttonsNumber.add(s, button);
+                buttonsNumber.add(button);
                 button.setBounds(s2 * i, s1 * i, i, i);
                 panel.add(button);
                 s++;
@@ -52,12 +50,23 @@ public class CalculatorWindow extends JFrame {
         }
         button = new JButton(",");
         button.setBounds(i, i * 4, i, i);
-        buttonsNumber.add(10, button);
+        buttonsNumber.add(button);
         panel.add(button);
 
-        button = new JButton("=");
+        buttonsNumber.add(summ);
+        buttonsNumber.add(subtraction);
+        buttonsNumber.add(multiplication);
+        buttonsNumber.add(divicion);
+
+        panel.add(text);
+        panel.add(summ);
+        panel.add(subtraction);
+        panel.add(multiplication);
+        panel.add(divicion);
+
+        JButton buttonEnter = new JButton("=");
         button.setBounds(i * 2, i * 4, i, i);
-        panel.add(button);
+        panel.add(buttonEnter);
 
         setContentPane(panel);
 
@@ -70,7 +79,7 @@ public class CalculatorWindow extends JFrame {
         //иначе она останется висеть в процессах
     }
 
-    static void listenButtonNumber(ArrayList<JButton> button) {
+    static void listenButtonNumber(List<JButton> button) {
         for (JButton buttonInMethod : button) {
             buttonInMethod.addActionListener(e -> {
                 textWriter += buttonInMethod.getText();

@@ -90,11 +90,52 @@ public class CalculatorWindow extends JFrame {
             buttonEnter.addActionListener(
                     e -> {
 //                        take text and dissamble it to parts
-
+                        text.setText(Text.parssingText(textWriter));
+                        textWriter = null;
                     }
             );
 
         }
+    }
+
+    private static class Text {
+        static String parssingText(String text) {
+            int i;
+
+            int a, b;
+
+            i = text.indexOf('+');
+            if (i != -1) {
+                a = Integer.getInteger(text.substring(0, i));
+                b = Integer.getInteger(text.substring(i + 1));
+                text = String.valueOf(a + b);
+            }
+
+
+            i = text.indexOf('-');
+            if (i != -1) {
+                a = Integer.getInteger(text.substring(0, i));
+                b = Integer.getInteger(text.substring(i + 1));
+                text = String.valueOf(a - b);
+            }
+
+            i = text.indexOf('*');
+            if (i != -1) {
+                a = Integer.getInteger(text.substring(0, i));
+                b = Integer.getInteger(text.substring(i + 1));
+                text = String.valueOf(a * b);
+            }
+
+            i = text.indexOf('/');
+            if (i != -1) {
+                a = Integer.getInteger(text.substring(0, i));
+                b = Integer.getInteger(text.substring(i + 1));
+                text = String.valueOf(a / b);
+            }
+
+            return text;
+        }
+
     }
 
 

@@ -90,8 +90,8 @@ public class CalculatorWindow extends JFrame {
             buttonEnter.addActionListener(
                     e -> {
 //                        take text and dissamble it to parts
-                        text.setText(Text.parssingText(textWriter));
-                        textWriter = null;
+                        text.setText(Text.parserText(textWriter));
+//                        textWriter = null;
                     }
             );
 
@@ -99,44 +99,37 @@ public class CalculatorWindow extends JFrame {
     }
 
     private static class Text {
-        static String parssingText(String text) {
-            int i;
-
-            int a, b;
-
-            i = text.indexOf('+');
-            if (i != -1) {
-                a = Integer.getInteger(text.substring(0, i));
-                b = Integer.getInteger(text.substring(i + 1));
-                text = String.valueOf(a + b);
-            }
-
-
-            i = text.indexOf('-');
-            if (i != -1) {
-                a = Integer.getInteger(text.substring(0, i));
-                b = Integer.getInteger(text.substring(i + 1));
-                text = String.valueOf(a - b);
-            }
-
-            i = text.indexOf('*');
-            if (i != -1) {
-                a = Integer.getInteger(text.substring(0, i));
-                b = Integer.getInteger(text.substring(i + 1));
-                text = String.valueOf(a * b);
-            }
-
-            i = text.indexOf('/');
-            if (i != -1) {
-                a = Integer.getInteger(text.substring(0, i));
-                b = Integer.getInteger(text.substring(i + 1));
-                text = String.valueOf(a / b);
-            }
-
-            return text;
+        static String parserText(String text) {
+            return Integer.toString(eval(text, 0, text.length()));
         }
 
+        private static int eval(String expr, int from, int to) {
+            if (expr.charAt(from) == '(') {
+                return eval(expr, from + 1, to - 1);
+            } else {
+                int pos = from;
+                while (pos < to) {
+                    if (Character.isDigit(expr.charAt(pos))) {
+                        pos++;
+                    } else {
+                        int leftOperand = Integer.valueOf(expr.substring(from, pos));
+                        char operation = expr.charAt(pos);
+                        int rightOperand = eval(expr, pos + 1, to);
+                        switch (operation) {
+                            case '+':
+                                return leftOperand + rightOperand;
+                            case '-':
+                                return leftOperand - rightOperand;
+                            case '*':
+                                return leftOperand * rightOperand;
+                            case '/':
+                                return leftOperand / rightOperand;
+                        }
+                    }
+                }
+                return Integer.valueOf(expr.substring(from, to));
+            }
+
+        }
     }
-
-
 }

@@ -128,9 +128,7 @@ public class CalculatorWindow extends JFrame {
         private static double eval_(String expr, int from, int to) {
             int pos = from;
             while (pos < to) {
-                if (Character.isDigit(expr.charAt(pos))) {
-                    pos++;
-                } else if (Character.isLetter('.')) {
+                if (Character.isDigit(expr.charAt(pos)) || expr.charAt(pos) == '.') {
                     pos++;
                 } else {
                     double leftOperand = Double.valueOf(expr.substring(from, pos));

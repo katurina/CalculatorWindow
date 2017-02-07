@@ -79,17 +79,14 @@ public class CalculatorWindow extends JFrame {
             buttonInMethod.addActionListener(e -> {
                 textWriter += buttonInMethod.getText();
                 text.setText(textWriter);
-                buttonEnter.addActionListener(
-                        e1 -> {
-                            text.setText(Text.parserText(textWriter));
-                            textWriter = new String();
-                        }
-                );
-
             });
-
-
         }
+        buttonEnter.addActionListener(
+                e1 -> {
+                    text.setText(Text.parserText(textWriter));
+                    textWriter = new String();
+                }
+        );
     }
 
     private static class Text {

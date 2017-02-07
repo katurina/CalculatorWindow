@@ -10,6 +10,7 @@ public class CalculatorWindow extends JFrame {
     private static JTextField text = new JTextField();
     private static String textWriter = new String();
     private static JButton buttonEnter = new JButton("=");
+    private static JButton cleanButton = new JButton("<-");
     private JButton summ = new JButton("+");
     private JButton subtraction = new JButton("-");
     private JButton multiplication = new JButton("*");
@@ -27,7 +28,8 @@ public class CalculatorWindow extends JFrame {
         subtraction.setBounds(300 - j, i * 2, i, i);
         multiplication.setBounds(300 - j, i * 3, i, i);
         divicion.setBounds(300 - j, i * 4, i, i);
-        text.setBounds(0, 0, 300, 60);
+        text.setBounds(0, 0, 300 - j, 60);
+
 
         List<JButton> buttonsNumber = new LinkedList<>();
 
@@ -65,6 +67,9 @@ public class CalculatorWindow extends JFrame {
         buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
 
+        cleanButton.setBounds(300 - j, 0, j, 60);
+        panel.add(cleanButton);
+
         setContentPane(panel);
 
         listenButtonNumber(buttonsNumber);
@@ -87,6 +92,14 @@ public class CalculatorWindow extends JFrame {
                     textWriter = new String();
                 }
         );
+        cleanButton.addActionListener(e2 -> {
+            if (!textWriter.isEmpty()) {
+                textWriter = textWriter.substring(0, textWriter.length() - 1);
+                text.setText(textWriter);
+            } else {
+                text.setText("There is nothing to delete");
+            }
+        });
     }
 
     private static class Text {

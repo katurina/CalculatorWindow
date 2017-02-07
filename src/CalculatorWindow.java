@@ -29,10 +29,7 @@ public class CalculatorWindow extends JFrame {
         divicion.setBounds(300 - j, i * 4, i, i);
         text.setBounds(0, 0, 300, 60);
 
-
-//        list doesn't want to be protected
         List<JButton> buttonsNumber = new LinkedList<>();
-
 
         int s = 1, s2;
 
@@ -65,15 +62,12 @@ public class CalculatorWindow extends JFrame {
         panel.add(multiplication);
         panel.add(divicion);
 
-
         buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
 
         setContentPane(panel);
 
-
         listenButtonNumber(buttonsNumber);
-
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при
         //закрытии окна закрывалась и программа,
@@ -85,15 +79,15 @@ public class CalculatorWindow extends JFrame {
             buttonInMethod.addActionListener(e -> {
                 textWriter += buttonInMethod.getText();
                 text.setText(textWriter);
+                buttonEnter.addActionListener(
+                        e1 -> {
+                            text.setText(Text.parserText(textWriter));
+                            textWriter = new String();
+                        }
+                );
+
             });
 
-            buttonEnter.addActionListener(
-                    e -> {
-//                        take text and dissamble it to parts
-                        text.setText(Text.parserText(textWriter));
-//                        textWriter = null;
-                    }
-            );
 
         }
     }

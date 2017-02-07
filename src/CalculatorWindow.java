@@ -46,7 +46,7 @@ public class CalculatorWindow extends JFrame {
                 s++;
             }
         }
-        button = new JButton(",");
+        button = new JButton(".");
         button.setBounds(i, i * 4, i, i);
         buttonsNumber.add(button);
         panel.add(button);
@@ -91,36 +91,64 @@ public class CalculatorWindow extends JFrame {
 
     private static class Text {
         static String parserText(String text) {
-            return Integer.toString(eval(text, 0, text.length()));
+            if (text.isEmpty()) {
+                return "Input expression";
+            }
+            return Double.toString(eval_(text, 0, text.length()));
         }
 
-        private static int eval(String expr, int from, int to) {
-            if (expr.charAt(from) == '(') {
-                return eval(expr, from + 1, to - 1);
-            } else {
-                int pos = from;
-                while (pos < to) {
-                    if (Character.isDigit(expr.charAt(pos))) {
-                        pos++;
-                    } else {
-                        int leftOperand = Integer.valueOf(expr.substring(from, pos));
-                        char operation = expr.charAt(pos);
-                        int rightOperand = eval(expr, pos + 1, to);
-                        switch (operation) {
-                            case '+':
-                                return leftOperand + rightOperand;
-                            case '-':
-                                return leftOperand - rightOperand;
-                            case '*':
-                                return leftOperand * rightOperand;
-                            case '/':
-                                return leftOperand / rightOperand;
-                        }
+//        private static int eval(String expr, int from, int to) {
+//            if (expr.charAt(from) == '(') {
+//                return eval(expr, from + 1, to - 1);
+//            } else {
+//                int pos = from;
+//                while (pos < to) {
+//                    if (Character.isDigit(expr.charAt(pos))) {
+//                        pos++;
+//                    } else {
+//                        int leftOperand = Integer.valueOf(expr.substring(from, pos));
+//                        char operation = expr.charAt(pos);
+//                        int rightOperand = eval(expr, pos + 1, to);
+//                        switch (operation) {
+//                            case '+':
+//                                return leftOperand + rightOperand;
+//                            case '-':
+//                                return leftOperand - rightOperand;
+//                            case '*':
+//                                return leftOperand * rightOperand;
+//                            case '/':
+//                                return leftOperand / rightOperand;
+//                        }
+//                    }
+//                }
+//                return Integer.valueOf(expr.substring(from, to));
+//            }
+//        }
+
+        private static double eval_(String expr, int from, int to) {
+            int pos = from;
+            while (pos < to) {
+                if (Character.isDigit(expr.charAt(pos))) {
+                    pos++;
+                } else if (Character.isLetter('.')) {
+                    pos++;
+                } else {
+                    double leftOperand = Double.valueOf(expr.substring(from, pos));
+                    char operation = expr.charAt(pos);
+                    double rightOperand = eval_(expr, pos + 1, to);
+                    switch (operation) {
+                        case '+':
+                            return leftOperand + rightOperand;
+                        case '-':
+                            return leftOperand - rightOperand;
+                        case '*':
+                            return leftOperand * rightOperand;
+                        case '/':
+                            return leftOperand / rightOperand;
                     }
                 }
-                return Integer.valueOf(expr.substring(from, to));
             }
-
+            return Double.valueOf(expr.substring(from, to));
         }
     }
 }

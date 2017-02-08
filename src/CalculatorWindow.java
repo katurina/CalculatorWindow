@@ -115,7 +115,7 @@ public class CalculatorWindow extends JFrame {
         }
 
         static boolean isOperator(char c) { // возвращяем тру если один из символов ниже
-            return c == '+' || c == '-' || c == '*' || c == '/' || c == '%';
+            return c == '+' || c == '-' || c == '*' || c == '/';
         }
 
         static int priority(char op) {
@@ -125,7 +125,6 @@ public class CalculatorWindow extends JFrame {
                     return 1;
                 case '*':
                 case '/':
-                case '%':
                     return 2;
                 default:
                     return -1;
@@ -156,7 +155,9 @@ public class CalculatorWindow extends JFrame {
 
         public static int eval(String s) {
             LinkedList<Integer> st = new LinkedList<Integer>(); // сюда наваливают цифры
+
             LinkedList<Character> op = new LinkedList<Character>(); // сюда опрераторы и st и op в порядке поступления
+
             for (int i = 0; i < s.length(); i++) { // парсим строку с выражением и вычисляем
                 char c = s.charAt(i);
                 if (isDelim(c))

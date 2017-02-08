@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -86,6 +88,14 @@ public class CalculatorWindow extends JFrame {
                 text.setText(textWriter);
             });
         }
+        text.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                if (true) {
+                    e.consume();  // игнорим введенные буквы и пробел
+                }
+            }
+        });
         buttonEnter.addActionListener(
                 e1 -> {
                     text.setText(Text.parserText(textWriter));

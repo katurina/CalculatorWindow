@@ -18,6 +18,8 @@ public class CalculatorWindow extends JFrame {
     private JButton multiplication = new JButton("*");
     private JButton divicion = new JButton("/");
     private JPanel panel = new JPanel();
+    private JButton leftParenthese = new JButton("(");
+    private JButton rightParenthese = new JButton(")");
 
     public CalculatorWindow() {
         super("Calculator"); //Заголовок окна
@@ -50,6 +52,7 @@ public class CalculatorWindow extends JFrame {
                 s++;
             }
         }
+
         button = new JButton(".");
         button.setBounds(i, i * 4, i, i);
         buttonsNumber.add(button);
@@ -68,11 +71,16 @@ public class CalculatorWindow extends JFrame {
 
         buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
-
-        cleanButton.setBounds(300 - j, 0, j, 60);
+        cleanButton.setBounds(300 - j, 0, i, 30);
         panel.add(cleanButton);
+        leftParenthese.setBounds(300 - j, 30, i / 2, 30);
+        panel.add(rightParenthese);
+        rightParenthese.setBounds(300 - j + i / 2, 30, i / 2, 30);
+        panel.add(leftParenthese);
 
         setContentPane(panel);
+        buttonsNumber.add(leftParenthese);
+        buttonsNumber.add(rightParenthese);
 
         listenButtonNumber(buttonsNumber);
 
@@ -92,7 +100,7 @@ public class CalculatorWindow extends JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (true) {
-                    e.consume();  // игнорим введенные буквы и пробел
+                    e.consume(); //ignore all symbols out of keyboard
                 }
             }
         });
@@ -141,9 +149,9 @@ public class CalculatorWindow extends JFrame {
             }
         }
 
-        static void processOperator(LinkedList<Integer> st, char op) {
-            int r = st.removeLast(); // выдёргиваем из упорядоченного листа последний элемент
-            int l = st.removeLast(); // также
+        static void processOperator(LinkedList<Double> st, char op) {
+            double r = st.removeLast(); // выдёргиваем из упорядоченного листа последний элемент
+            double l = st.removeLast(); // также
             switch (op) { // выполняем действие между l и r в зависимости от оператора в кейсе и результат валим в st
                 case '+':
                     st.add(l + r);
@@ -163,8 +171,8 @@ public class CalculatorWindow extends JFrame {
             }
         }
 
-        public static int eval(String s) {
-            LinkedList<Integer> st = new LinkedList<Integer>(); // сюда наваливают цифры
+        public static double eval(String s) {
+            LinkedList<Double> st = new LinkedList<Double>(); // сюда наваливают цифры
 
             LinkedList<Character> op = new LinkedList<Character>(); // сюда опрераторы и st и op в порядке поступления
 
@@ -184,10 +192,10 @@ public class CalculatorWindow extends JFrame {
                     op.add(c);
                 } else {
                     String operand = "";
-                    while (i < s.length() && Character.isDigit(s.charAt(i)))
+                    while ((i < s.length() && Character.isDigit(s.charAt(i))) || (i < s.length() && s.charAt(i) == '.'))
                         operand += s.charAt(i++);
                     --i;
-                    st.add(Integer.parseInt(operand));
+                    st.add(Double.parseDouble(operand));
                 }
             }
             while (!op.isEmpty())

@@ -24,7 +24,7 @@ public class CalculatorWindow extends JFrame {
 
     public CalculatorWindow() {
         super("Calculator"); //Заголовок окна
-        setBounds(200, 200, 300, 335);
+        setBounds(200, 200, 375, 335);
         setResizable(false);
         panel.setLayout(null);
 
@@ -35,7 +35,6 @@ public class CalculatorWindow extends JFrame {
         multiplication.setBounds(300 - j, i * 3, i, i);
         divicion.setBounds(300 - j, i * 4, i, i);
         text.setBounds(0, 0, 300 - j, 60);
-
 
 
         List<JButton> buttonsNumber = new LinkedList<>();
@@ -74,20 +73,24 @@ public class CalculatorWindow extends JFrame {
 
         buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
-        cleanButton.setBounds(300 - j, 0, i, 30);
+        cleanButton.setBounds(300 - j, 0, i, 60);
         panel.add(cleanButton);
-        leftParenthese.setBounds(300 - j, 30, i / 2, 30);
+        leftParenthese.setBounds(300, 0, i, 60);
         panel.add(rightParenthese);
-        rightParenthese.setBounds(300 - j + i / 2, 30, i / 2, 30);
+        rightParenthese.setBounds(300, 60, i, 60);
         panel.add(leftParenthese);
 
-        setContentPane(panel);
+        JButton cosButton = new JButton("cos(");
+        cosButton.setBounds(300, 120, i, 60);
+        panel.add(cosButton);
+        buttonsNumber.add(cosButton);
+
         buttonsNumber.add(leftParenthese);
         buttonsNumber.add(rightParenthese);
 
         listenButtonNumber(buttonsNumber);
 
-
+        setContentPane(panel);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при
         //закрытии окна закрывалась и программа,
         //иначе она останется висеть в процессах
@@ -155,21 +158,28 @@ public class CalculatorWindow extends JFrame {
 
         static void processOperator(LinkedList<Double> st, char op) {
             double r = st.removeLast(); // выдёргиваем из упорядоченного листа последний элемент
-            double l = st.removeLast(); // также
-            switch (op) { // выполняем действие между l и r в зависимости от оператора в кейсе и результат валим в st
+            switch (op) {
+                case 'c':
+                    st.add(Math.cos(r));
+                    break;
                 case '+':
+                    double l = st.removeLast();
                     st.add(l + r);
                     break;
                 case '-':
+                    l = st.removeLast();
                     st.add(l - r);
                     break;
                 case '*':
+                    l = st.removeLast();
                     st.add(l * r);
                     break;
                 case '/':
+                    l = st.removeLast();
                     st.add(l / r);
                     break;
                 case '%':
+                    l = st.removeLast();
                     st.add(l % r);
                     break;
             }
@@ -182,11 +192,17 @@ public class CalculatorWindow extends JFrame {
 
             for (int i = 0; i < s.length(); i++) { // парсим строку с выражением и вычисляем
                 char c = s.charAt(i);
-                if (isDelim(c))
+                if (isDelim(c)) {
                     continue;
-                if (c == '(')
+                }
+                if (c == 'c') {
+                    op.add('c');
+                    i += 2;
+                    continue;
+                }
+                if (c == '(') {
                     op.add('(');
-                else if (c == ')') {
+                } else if (c == ')') {
                     while (op.getLast() != '(')
                         processOperator(st, op.removeLast());
                     op.removeLast();

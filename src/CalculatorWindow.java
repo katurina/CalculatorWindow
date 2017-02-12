@@ -21,9 +21,11 @@ public class CalculatorWindow extends JFrame {
     private JButton leftParenthese = new JButton("(");
     private JButton rightParenthese = new JButton(")");
 
+
     public CalculatorWindow() {
         super("Calculator"); //Заголовок окна
         setBounds(200, 200, 300, 335);
+        setResizable(false);
         panel.setLayout(null);
 
         int i = 60;
@@ -33,6 +35,7 @@ public class CalculatorWindow extends JFrame {
         multiplication.setBounds(300 - j, i * 3, i, i);
         divicion.setBounds(300 - j, i * 4, i, i);
         text.setBounds(0, 0, 300 - j, 60);
+
 
 
         List<JButton> buttonsNumber = new LinkedList<>();
@@ -83,6 +86,7 @@ public class CalculatorWindow extends JFrame {
         buttonsNumber.add(rightParenthese);
 
         listenButtonNumber(buttonsNumber);
+
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при
         //закрытии окна закрывалась и программа,
@@ -172,9 +176,9 @@ public class CalculatorWindow extends JFrame {
         }
 
         public static double eval(String s) {
-            LinkedList<Double> st = new LinkedList<Double>(); // сюда наваливают цифры
+            LinkedList<Double> st = new LinkedList<>(); // сюда наваливают цифры
 
-            LinkedList<Character> op = new LinkedList<Character>(); // сюда опрераторы и st и op в порядке поступления
+            LinkedList<Character> op = new LinkedList<>(); // сюда опрераторы и st и op в порядке поступления
 
             for (int i = 0; i < s.length(); i++) { // парсим строку с выражением и вычисляем
                 char c = s.charAt(i);

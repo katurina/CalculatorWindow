@@ -20,6 +20,8 @@ public class CalculatorWindow extends JFrame {
     private JPanel panel = new JPanel();
     private JButton leftParenthese = new JButton("(");
     private JButton rightParenthese = new JButton(")");
+    private JButton cosButton = new JButton("cos(");
+    private JButton sinButton = new JButton("sin(");
 
 
     public CalculatorWindow() {
@@ -80,10 +82,14 @@ public class CalculatorWindow extends JFrame {
         rightParenthese.setBounds(300, 60, i, 60);
         panel.add(leftParenthese);
 
-        JButton cosButton = new JButton("cos(");
+
         cosButton.setBounds(300, 120, i, 60);
         panel.add(cosButton);
         buttonsNumber.add(cosButton);
+
+        sinButton.setBounds(300, 180, i, 60);
+        panel.add(sinButton);
+        buttonsNumber.add(sinButton);
 
         buttonsNumber.add(leftParenthese);
         buttonsNumber.add(rightParenthese);
@@ -159,8 +165,11 @@ public class CalculatorWindow extends JFrame {
         static void processOperator(LinkedList<Double> st, char op) {
             double r = st.removeLast(); // выдёргиваем из упорядоченного листа последний элемент
             switch (op) {
+                case 's':
+                    st.add((double) (Math.round(Math.sin(Math.toRadians(r)))));
+                    break;
                 case 'c':
-                    st.add(Math.cos(r));
+                    st.add((double) (Math.round(Math.cos(Math.toRadians(r)))));
                     break;
                 case '+':
                     double l = st.removeLast();
@@ -193,6 +202,11 @@ public class CalculatorWindow extends JFrame {
             for (int i = 0; i < s.length(); i++) { // парсим строку с выражением и вычисляем
                 char c = s.charAt(i);
                 if (isDelim(c)) {
+                    continue;
+                }
+                if (c == 's') {
+                    op.add('s');
+                    i += 2;
                     continue;
                 }
                 if (c == 'c') {

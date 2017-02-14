@@ -11,18 +11,18 @@ public class CalculatorWindow extends JFrame {
     private static String textWriter = new String();
     private static JButton buttonEnter = new JButton("=");
     private static JButton cleanButton = new JButton("←");
-    private JButton summ = new JButton("+");
-    private JButton subtraction = new JButton("-");
-    private JButton multiplication = new JButton("*");
-    private JButton divicion = new JButton("/");
+    private static JButton summ = new JButton("+");
+    private static JButton subtraction = new JButton("-");
+    private static JButton multiplication = new JButton("*");
+    private static JButton divicion = new JButton("/");
+    private static JButton leftParenthese = new JButton("(");
+    private static JButton rightParenthese = new JButton(")");
+    private static JButton cosButton = new JButton("cos(");
+    private static JButton sinButton = new JButton("sin(");
+    private static JButton tgButton = new JButton("tg(");
+    private static JButton ctgButton = new JButton("ctg(");
+    private static JButton powButton = new JButton("^");
     private JPanel panel = new JPanel();
-    private JButton leftParenthese = new JButton("(");
-    private JButton rightParenthese = new JButton(")");
-    private JButton cosButton = new JButton("cos(");
-    private JButton sinButton = new JButton("sin(");
-    private JButton tgButton = new JButton("tg(");
-    private JButton ctgButton = new JButton("ctg(");
-    private JButton powButton = new JButton("^");
 
 
     public CalculatorWindow() {
@@ -31,16 +31,26 @@ public class CalculatorWindow extends JFrame {
         setResizable(false);
         panel.setLayout(null);
 
+        List<JButton> buttonsNumber = new LinkedList<>();
+        addButtons(panel, buttonsNumber);
+
+        ListinerButtons.listenButtonNumber(buttonsNumber, cleanButton, buttonEnter, text);
+
+        setContentPane(panel);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при
+        //закрытии окна закрывалась и программа,
+        //иначе она останется висеть в процессах
+    }
+
+    private static List<JButton> addButtons(JPanel panel, List<JButton> buttonsNumber) {
         int i = 60;
+
 
         SettingButtons.setButton(panel, summ, 3 * i, i, i, 60);
         SettingButtons.setButton(panel, subtraction, 3 * i, i * 2, i, i);
         SettingButtons.setButton(panel, multiplication, 3 * i, i * 3, i, i);
         SettingButtons.setButton(panel, divicion, 3 * i, i * 4, i, i);
         text.setBounds(0, 0, 3 * i, 60);
-
-
-        List<JButton> buttonsNumber = new LinkedList<>();
 
         int s = 1, s2;
 
@@ -58,7 +68,6 @@ public class CalculatorWindow extends JFrame {
 
         button = new JButton(".");
         SettingButtons.setButton(panel, button, i, i * 4, i, i);
-
 
 
         buttonsNumber.add(summ);
@@ -87,11 +96,6 @@ public class CalculatorWindow extends JFrame {
         buttonsNumber.add(button);
         buttonsNumber.add(rightParenthese);
 
-        ListinerButtons.listenButtonNumber(buttonsNumber, cleanButton, buttonEnter, text);
-
-        setContentPane(panel);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE); //это нужно для того чтобы при
-        //закрытии окна закрывалась и программа,
-        //иначе она останется висеть в процессах
+        return buttonsNumber;
     }
 }

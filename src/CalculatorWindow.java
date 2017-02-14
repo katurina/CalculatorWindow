@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,21 +24,23 @@ public class CalculatorWindow extends JFrame {
     private JButton rightParenthese = new JButton(")");
     private JButton cosButton = new JButton("cos(");
     private JButton sinButton = new JButton("sin(");
+    private JButton tgButton = new JButton("tg(");
+    private JButton ctgButton = new JButton("ctg(");
+    private JButton powButton = new JButton("^");
 
 
     public CalculatorWindow() {
         super("Calculator"); //Заголовок окна
-        setBounds(200, 200, 375, 335);
+        setBounds(200, 200, 450, 335);
         setResizable(false);
         panel.setLayout(null);
 
         int i = 60;
-        int j = 300 / 4;
-        summ.setBounds(300 - j, i, i, 60);
-        subtraction.setBounds(300 - j, i * 2, i, i);
-        multiplication.setBounds(300 - j, i * 3, i, i);
-        divicion.setBounds(300 - j, i * 4, i, i);
-        text.setBounds(0, 0, 300 - j, 60);
+        summ.setBounds(3 * i, i, i, 60);
+        subtraction.setBounds(3 * i, i * 2, i, i);
+        multiplication.setBounds(3 * i, i * 3, i, i);
+        divicion.setBounds(3 * i, i * 4, i, i);
+        text.setBounds(0, 0, 3 * i, 60);
 
 
         List<JButton> buttonsNumber = new LinkedList<>();
@@ -75,21 +79,34 @@ public class CalculatorWindow extends JFrame {
 
         buttonEnter.setBounds(i * 2, i * 4, i, i);
         panel.add(buttonEnter);
-        cleanButton.setBounds(300 - j, 0, i, 60);
+        cleanButton.setBounds(3 * i, 0, i, 60);
         panel.add(cleanButton);
-        leftParenthese.setBounds(300, 0, i, 60);
+        leftParenthese.setBounds(4 * i, 0, i, 60);
         panel.add(rightParenthese);
-        rightParenthese.setBounds(300, 60, i, 60);
+        rightParenthese.setBounds(5 * i, 0, i, 60);
         panel.add(leftParenthese);
+        powButton.setBounds(6 * i, 0, i, i);
+        panel.add(powButton);
+        buttonsNumber.add(powButton);
 
 
-        cosButton.setBounds(300, 120, i, 60);
+        cosButton.setBounds(4 * i, i * 2, i, 60);
         panel.add(cosButton);
         buttonsNumber.add(cosButton);
 
-        sinButton.setBounds(300, 180, i, 60);
+
+        sinButton.setBounds(4 * i, i, i, 60);
         panel.add(sinButton);
         buttonsNumber.add(sinButton);
+
+        tgButton.setBounds(4 * i, 3 * i, i, 60);
+        panel.add(tgButton);
+        buttonsNumber.add(tgButton);
+
+        ctgButton.setBounds(4 * i, 4 * i, i, 60);
+        panel.add(ctgButton);
+        buttonsNumber.add(ctgButton);
+
 
         buttonsNumber.add(leftParenthese);
         buttonsNumber.add(rightParenthese);
@@ -151,6 +168,13 @@ public class CalculatorWindow extends JFrame {
 
         static int priority(char op) {
             switch (op) { // при + или - возврат 1, при * / % 2 иначе -1
+                case '^':
+                    return 4;
+                case 'c':
+                case 's':
+                case 't':
+                case 'g':
+                    return 3;
                 case '+':
                 case '-':
                     return 1;
@@ -166,10 +190,16 @@ public class CalculatorWindow extends JFrame {
             double r = st.removeLast(); // выдёргиваем из упорядоченного листа последний элемент
             switch (op) {
                 case 's':
-                    st.add((double) (Math.round(Math.sin(Math.toRadians(r)))));
+                    st.add(new BigDecimal(Math.sin(Math.toRadians(r))).setScale(3, RoundingMode.HALF_UP).doubleValue());
                     break;
                 case 'c':
-                    st.add((double) (Math.round(Math.cos(Math.toRadians(r)))));
+                    st.add(new BigDecimal(Math.cos(Math.toRadians(r))).setScale(3, RoundingMode.HALF_UP).doubleValue());
+                    break;
+                case 't':
+                    st.add(new BigDecimal(Math.tan(Math.toRadians(r))).setScale(3, RoundingMode.HALF_UP).doubleValue());
+                    break;
+                case 'g':
+                    st.add(new BigDecimal(Math.atan(Math.toRadians(r))).setScale(3, RoundingMode.HALF_UP).doubleValue());
                     break;
                 case '+':
                     double l = st.removeLast();
@@ -191,6 +221,10 @@ public class CalculatorWindow extends JFrame {
                     l = st.removeLast();
                     st.add(l % r);
                     break;
+                case '^':
+                    l = st.removeLast();
+                    st.add(Math.pow(l, r));
+                    break;
             }
         }
 
@@ -209,9 +243,23 @@ public class CalculatorWindow extends JFrame {
                     i += 2;
                     continue;
                 }
-                if (c == 'c') {
+                if (c == 't') {
+                    op.add('t');
+                    i += 2;
+                    continue;
+                }
+                if (c == 'c' && s.charAt(i + 1) == 'o') {
                     op.add('c');
                     i += 2;
+                    continue;
+                }
+                if (c == 'c' && s.charAt(i + 1) == 't') {
+                    op.add('g');
+                    i += 2;
+                    continue;
+                }
+                if (c == '^') {
+                    op.add('^');
                     continue;
                 }
                 if (c == '(') {
@@ -220,13 +268,17 @@ public class CalculatorWindow extends JFrame {
                     while (op.getLast() != '(')
                         processOperator(st, op.removeLast());
                     op.removeLast();
-                } else if (isOperator(c)) {
+                } else if (!(c == '-' &&
+                        ((i - 1) == -1 || !Character.isDigit(s.charAt(i - 1)))
+                ) && isOperator(c)) {
                     while (!op.isEmpty() && priority(op.getLast()) >= priority(c))
                         processOperator(st, op.removeLast());
                     op.add(c);
                 } else {
                     String operand = "";
-                    while ((i < s.length() && Character.isDigit(s.charAt(i))) || (i < s.length() && s.charAt(i) == '.'))
+                    while ((i < s.length() && Character.isDigit(s.charAt(i))) ||
+                            (i < s.length() && s.charAt(i) == '.') ||
+                            (i < s.length() && ((i - 1) == -1 || !Character.isDigit(s.charAt(i - 1))) && c == '-'))
                         operand += s.charAt(i++);
                     --i;
                     st.add(Double.parseDouble(operand));

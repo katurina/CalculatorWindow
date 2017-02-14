@@ -14,7 +14,7 @@ public class CalculatorWindow extends JFrame {
     private static JTextField text = new JTextField();
     private static String textWriter = new String();
     private static JButton buttonEnter = new JButton("=");
-    private static JButton cleanButton = new JButton("<-");
+    private static JButton cleanButton = new JButton("⇽");
     private JButton summ = new JButton("+");
     private JButton subtraction = new JButton("-");
     private JButton multiplication = new JButton("*");

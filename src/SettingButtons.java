@@ -5,8 +5,8 @@ import javax.swing.*;
  */
 public class SettingButtons {
     public static JPanel setButton(JPanel panel, JButton button, int x, int y, int width, int height) {
-
-
+        button.setBounds(x, y, width, height);
+        panel.add(button);
         return panel;
     }
 
